@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <title>Flask</title>
+</head>
+<body>
+
+    <div class="menu">
+        <a href="/" class="menua">Inicio</a>    
+        <a href="/productos" class="menua">Productos</a>    
+        <a href="/ingredientes"class="menua">Ingredientes</a>
+        <a href="/ventas"class="menua">Ventas</a>
+    </div>
+
+    <div class="principal">
+
+        <table class="principalTabla">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Sabor</th>
+                    <th>Precio</th>
+                    <th>Calorias</th>
+                    <th>Inventario</th>
+                    <th>Es Vegetariano</th>
+                    <th>Tipo Ingrediente</th>
+                    
+                </tr>
+                
+                {% for ingrediente in ingredientes %}
+                    <tr>
+                        <td>{{ingrediente.nombre}}</td>
+                        <td>
+                            {% if ingrediente.sabores.nombre == "Sin Sabor" %}
+                            &nbsp   
+                        {% else %}
+                            {{ingrediente.sabores.nombre}}
+                        {% endif %}
+                        <td>${{'{:,}'.format(ingrediente.precio)}}</td>
+                        <td>{{ingrediente.calorias}}</td>
+                        <td>{{ingrediente.inventario}}</td>
+                        <td>
+                            {% if ingrediente.es_vegetariano == True %}
+                            Es Vegetariano   
+                        {% else %}
+                            No Es Vegetariano
+                        {% endif %}
+                        </td>
+                        <td>{{ingrediente.tipo_ingrediente}}</td>
+                        
+                    </tr>    
+                {% endfor %}
+                
+
+        </table>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <title>Login de nuestro Sistema</title>
+</head>
+<body>
+    <div class="principal">
+        <h1 class="LoginH1">Bienvenido a la Heladeria</h1>
+
+        <form action="/login" method="post" class="LoginForm">
+            <label for="username">Nombre del Usuario</label>
+            <input type="text" name="username" id="username" required class="LoginInp">
+            <br><br>
+            <label for="password">Contraseña del Usuario</label>
+            <input type="password" name="password" id="password" required class="LoginInp">
+            <br><br>
+            <button class="PrincipalBton" type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

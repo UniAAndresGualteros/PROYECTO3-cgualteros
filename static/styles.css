@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+li{
+    list-style-type: none;
+}
+
+.menu{
+    width: 100%;
+    position: fixed;
+    background-color: #137a7f;
+    z-index: 20;
+
+    float: left;
+    display: block;
+    text-align: center;
+    min-width: 60px;
+    padding: 14px 16px;
+    font-size: 17px;
+}
+
+.menua{
+    text-decoration: none;
+    padding: 20px;
+    color: #d5e8e8;   
+}
+
+.menua:hover{
+    color: #252A2E;
+    text-decoration: underline #e12885;
+    text-underline-offset: 5px;
+}
+
+body{
+    background-color: rgba(134,206,203,1);
+}
+
+.principal{
+    padding: 15% 0 4%;
+    background: rgb(19,122,127);
+    background: linear-gradient(180deg, rgba(19,122,127,1) 10%, rgba(134,206,203,1) 90%); /* #137a7f  #86cecb */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px 30px;
+    padding: 90px 0 40px;
+}
+
+.divPrincipal{
+    width: 35%;
+    min-width: 275px;
+    max-width: 500px;
+    padding-bottom: 50px;
+}
+
+.divPrincipalBoton{
+    width: 85%;
+    display: flex;
+    justify-content: center;
+}
+
+.divPrincipalP{
+    color: #f1f7f7;
+    font-size: 22px;
+    width: 85%;
+    display: flex;
+    justify-content: center;
+}
+
+.principalMensajes{
+    color: #d5e8e8;
+    font-size: 30px;
+    width: 85%;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.PrincipalBton{
+    padding: 8px;
+    border-radius: 20px;
+    width: 150px;
+    background-color: #373b3e;
+    border: solid 1px #f1f7f7;
+    color: #f1f7f7;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.PrincipalBton:hover{
+    background-color: #1dbac2;
+    padding: 6.5px;
+    font-size: 18px;
+}
+
+.principalTabla{
+    margin: 2%;
+    border-spacing: 0;
+}
+
+th{
+    color: #f1f7f7	;
+    background-color: #373b3e;
+}
+
+td, th{
+    border:  solid 1px #252A2E;
+    border-spacing: 0;
+    padding: 8px;
+    border-collapse: collapse;
+}
+
+li{
+    padding: 5px;
+}
+
+.LoginForm{
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+    max-width: 500px;
+    min-width: 325px;
+    justify-content: center;
+    align-items: center;
+    gap: 15px 5px;
+}
+
+.LoginH1{
+    width: 85%;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 900;
+    color: #f1f7f7;
+}
+
+.LoginInp{
+    padding: 12px;
+    border-radius: 20px;
+    background-color: #86CECB;
+    width: 50%;
+    border: solid 1px #f1f7f7;
+    outline: none;
+}

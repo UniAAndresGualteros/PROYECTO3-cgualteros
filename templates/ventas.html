@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <title>Flask</title>
+</head>
+<body>
+
+    <div class="menu">
+        <a href="/" class="menua">Inicio</a>    
+        <a href="/productos" class="menua">Productos</a>    
+        <a href="/ingredientes"class="menua">Ingredientes</a>
+        <a href="/ventas"class="menua">Ventas</a>
+    </div>
+
+    <div class="principal">
+
+        <table class="principalTabla">
+            <thead>
+                <tr>
+                    <th>Fecha de Venta</th>
+                    <th>Producto</th>
+                    <th>Tipo de Producto</th>
+                    <th>Ingrediente 1</th>
+                    <th>Precio Ingrediente 1</th>
+                    <th>Tipo Ingrediente 1</th>
+                    <th>Ingrediente 2</th>
+                    <th>Precio Ingrediente 2</th>
+                    <th>Tipo Ingrediente 2</th>
+                    <th>Ingrediente 3</th>
+                    <th>Precio Ingrediente 3</th>
+                    <th>Tipo Ingrediente 3</th>
+                    <th>Precio Base</th>
+                    <th>Precio Plastico</th>
+                    <th>Precio Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta.fecha_venta }}</td>
+                    <td>{{ venta.Producto }}</td>
+                    <td>{{ venta.tipo_producto }}</td>
+                    <td>{{ venta.Ingrediente1 }}</td>
+                    <td>${{ '{:,.2f}'.format(venta.Precio_1) }}</td>
+                    <td>{{ venta.Tipo_1 }}</td>
+                    <td>{{ venta.Ingrediente2 }}</td>
+                    <td>${{ '{:,.2f}'.format(venta.Precio_2) }}</td>
+                    <td>{{ venta.Tipo_2 }}</td>
+                    <td>{{ venta.Ingrediente3 }}</td>
+                    <td>${{ '{:,.2f}'.format(venta.Precio_3) }}</td>
+                    <td>{{ venta.Tipo_3 }}</td>
+                    <td>${{ '{:,.2f}'.format(venta.precio_base) }}</td>
+                    <td>${{ '{:,.2f}'.format(venta.precio_plastico) }}</td>
+                    <td>${{ '{:,.2f}'.format(venta.precio_total) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</body>
+</html>
