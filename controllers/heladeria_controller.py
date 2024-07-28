@@ -6,14 +6,16 @@ from models.sabores import Sabores
 from models.ventas import Ventas
 from models.funciones import *
 from db import db
+from flask_login import login_required
 
 
 class HeladeriaController(Resource):
     
+    @login_required
     def get(self):
         ingredientes = Ingredientes.query.join(Sabores, Ingredientes.sabor_base==Sabores.idSabor).order_by(Ingredientes.idIngrediente).all()
         productos = Productos.query.all()
-        return make_response(render_template("index.html",ingredientes=ingredientes, productos=productos))
+        return make_response(render_template("vender.html",ingredientes=ingredientes, productos=productos))
      
     
 class HeladosVender(Resource):

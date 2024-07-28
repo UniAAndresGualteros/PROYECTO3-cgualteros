@@ -49,7 +49,7 @@ def load_user(user_id):
     return None
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout')
 @login_required
 def logout():
     logout_user()
@@ -62,11 +62,11 @@ def unauthorized():
 
 
 
-api.add_resource(HeladeriaController, "/")
+api.add_resource(ProductosController, "/")
+api.add_resource(HeladeriaController, "/vender")
 api.add_resource(UsuarioController, "/login")
 api.add_resource(HeladosVender, '/heladosvender')
 api.add_resource(IngredientesController, "/ingredientes")
-api.add_resource(ProductosController, "/productos")
 api.add_resource(VentasController, "/ventas")
 api.add_resource(ProductosList, '/api/productos')
 api.add_resource(ProductoporID, '/api/productos/<int:id>')

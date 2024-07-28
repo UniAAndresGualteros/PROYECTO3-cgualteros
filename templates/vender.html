@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <title>Flask</title>
+</head>
+<body>
+    
+    {% include '/menu-login.html' %}
+        
+    <div class="principal">
+        <div class="principalMensajes">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form action="/heladosvender" method="post">
+        
+        </div>    
+
+            <div class="divPrincipalP"><p>Seleccione un Producto y Tres Ingredientes</p></div>
+        
+            <div class="divPrincipal">
+
+
+                {% for producto in productos %}
+
+                <li>
+                    <input type="radio" name="producto" value="{{ producto.idProducto }}" id="producto_{{ producto.idProducto }}">
+                    <label for="producto_{{ producto.idProducto }}">{{ producto.tipo_producto }} - {{ producto.nombre }}&nbsp   ${{'{:,}'.format(producto.precio_publico)}}</label>
+                </li>
+
+                
+
+                {% endfor %}
+
+            </div>
+            <div class="divPrincipal">
+
+
+                {% for ingrediente in ingredientes %}
+
+                <li>
+                    <input type="checkbox" name="ingredientes" value="{{ ingrediente.idIngrediente }}" id="ingrediente_{{ ingrediente.idIngrediente }}">
+                    <label for="ingrediente_{{ ingrediente.idIngrediente }}">{{ ingrediente.tipo_ingrediente }} - {{ ingrediente.nombre }} 
+                        {% if ingrediente.sabores.nombre == "Sin Sabor" %}
+                            &nbsp   
+                        {% else %}
+                            - {{ingrediente.sabores.nombre}}
+                        {% endif %}
+                        
+                    </label>
+                </li>
+
+            {% endfor %}
+
+            </div>
+            <div class="divPrincipalBoton">
+            <button type="submit" class="PrincipalBton">Comprar</button>
+            </div>    
+        </form>
+        
+</body>
+</html>

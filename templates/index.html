@@ -7,73 +7,35 @@
     <title>Flask</title>
 </head>
 <body>
+
+    {% if current_user.is_authenticated %}
+        {% include '/menu-login.html' %}
+    {% else %}
+        {% include '/menu.html' %}
+    {% endif %}
     
-    <div class="menu">
-        <a href="/" class="menua">Inicio</a>    
-        <a href="/productos" class="menua">Productos</a>    
-        <a href="/ingredientes"class="menua">Ingredientes</a>
-        <a href="/ventas"class="menua">Ventas</a>
-        <form action="{{ url_for('logout') }}" method="post">
-            <button type="submit">Logout</button>
-    </div>
-        
+
     <div class="principal">
-        <div class="principalMensajes">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <ul class="flashes">
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
+        <table  class="principalTabla">
 
-        <form action="/heladosvender" method="post">
-        
-        </div>    
-
-            <div class="divPrincipalP"><p>Seleccione un Producto y Tres Ingredientes</p></div>
-        
-            <div class="divPrincipal">
-
-
-                {% for producto in productos %}
-
-                <li>
-                    <input type="radio" name="producto" value="{{ producto.idProducto }}" id="producto_{{ producto.idProducto }}">
-                    <label for="producto_{{ producto.idProducto }}">{{ producto.tipo_producto }} - {{ producto.nombre }}</label>
-                </li>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo Producto</th>
+                    <th>Presentacion</th>
+                </tr>
 
                 
-
+                {% for producto in productos %}
+                    <tr>
+                        <td>{{producto.nombre}}</td>
+                        <td>{{producto.tipo_producto}}</td>
+                        <td>{{producto.presentacion}}</td>
+                    </tr>    
                 {% endfor %}
+                
 
-            </div>
-            <div class="divPrincipal">
-
-
-                {% for ingrediente in ingredientes %}
-
-                <li>
-                    <input type="checkbox" name="ingredientes" value="{{ ingrediente.idIngrediente }}" id="ingrediente_{{ ingrediente.idIngrediente }}">
-                    <label for="ingrediente_{{ ingrediente.idIngrediente }}">{{ ingrediente.tipo_ingrediente }} - {{ ingrediente.nombre }} 
-                        {% if ingrediente.sabores.nombre == "Sin Sabor" %}
-                            &nbsp   
-                        {% else %}
-                            - {{ingrediente.sabores.nombre}}
-                        {% endif %}
-                        &nbsp   ${{'{:,}'.format(ingrediente.precio)}}
-                    </label>
-                </li>
-
-            {% endfor %}
-
-            </div>
-            <div class="divPrincipalBoton">
-            <button type="submit" class="PrincipalBton">Comprar</button>
-            </div>    
-        </form>
-        
+        </table>
+    </div>    
+   
 </body>
 </html>

@@ -23,11 +23,9 @@ class UsuarioController(Resource):
             if user:
                 login_user(user)
                 
-                if user.rol_usuario == 1:
-                    return redirect(url_for("productoscontroller"))
-                else:
-                    return redirect(url_for("ingredientescontroller"))
-            
+
+                return redirect(url_for("productoscontroller"))
+                
             return make_response(render_template("login.html"))
         
 

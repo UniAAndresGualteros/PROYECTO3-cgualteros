@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <title>Login de nuestro Sistema</title>
+</head>
+<body>
+    <div class="principal">
+        <h1 class="LoginH1">Error - ¡¡ACCESO NO AUTORIZADO!!</h1>
+        <div class="DivImg">
+            <img src={{ url_for('static', filename = 'img/no-autorizado.jpg') }} alt="" width="600px"> 
+        </div>
+        <div class="DivImg">
+            <a href="/" class="PrincipalBton">Inicio</a>
+        </div>
+        
+    </div>
+</body>
+</html>

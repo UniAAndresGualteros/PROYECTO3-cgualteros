@@ -51,6 +51,8 @@ class ProductoporNombre(Resource):
 
 
 class IngredientesList(Resource):
+    
+    @role_required([1,2]) 
     def get(self):
         ingredientes = Ingredientes.query.join(Sabores, Ingredientes.sabor_base==Sabores.idSabor).all()
         
@@ -78,6 +80,8 @@ class IngredientesList(Resource):
             
 
 class IngredienteporID(Resource):
+    
+    @role_required([1,2]) 
     def get(self, id):
         ingredientes = Ingredientes.query.filter_by(idIngrediente=id).join(Sabores, Ingredientes.sabor_base==Sabores.idSabor)
 
@@ -105,6 +109,8 @@ class IngredienteporID(Resource):
         
         
 class IngredienteporNombre(Resource):
+    
+    @role_required([1,2]) 
     def get(self):
         nombre = request.args.get('nombre', None)
         if nombre is None:

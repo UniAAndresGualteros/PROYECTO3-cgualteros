@@ -7,10 +7,12 @@ from models. productos import Productos
 from db import db
 from sqlalchemy import text # type: ignore
 from flask_login import login_required
+from auth import role_required
 
 
 class VentasController(Resource):
     
+    @role_required([1])
     def get(self):
         sql_query = text("""
         select V.fecha_venta, P.nombre as Producto, P.tipo_producto, concat(I1.nombre,' ',S1.nombre) Ingrediente1, I1.precio as Precio_1, I1.tipo_ingrediente as Tipo_1,
@@ -32,6 +34,7 @@ class VentasController(Resource):
     
 class IngredientesController(Resource):
     
+    @role_required([1,2])
     @login_required
     def get(self):
         ingredientes = Ingredientes.query.join(Sabores, Ingredientes.sabor_base==Sabores.idSabor).order_by(Ingredientes.idIngrediente).all()
@@ -40,8 +43,7 @@ class IngredientesController(Resource):
     
 class ProductosController(Resource):
     
-    @login_required
     def get(self):
         productos = Productos.query.all()
-        return make_response(render_template("productos.html",productos=productos))
+        return make_response(render_template("index.html",productos=productos))
     

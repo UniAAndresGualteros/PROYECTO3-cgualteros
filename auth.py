@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, make_response, render_template
 from flask_login import LoginManager, login_required, current_user, login_user, logout_user
 from functools import wraps
 from models.usuarios import Usuarios
@@ -14,7 +14,7 @@ def role_required(required_roles):
             if current_user.rol_usuario not in required_roles:
                 response = jsonify({'error': 'Acceso No Autorizado'})
                 response.status_code = 401
-                return response
+                return make_response(render_template("no-autorizado.html"))
             return fn(*args, **kwargs)
         return decorated_view
     return wrapper
