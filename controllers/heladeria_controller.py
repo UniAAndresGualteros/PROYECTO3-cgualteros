@@ -19,6 +19,7 @@ class HeladeriaController(Resource):
      
     
 class HeladosVender(Resource):
+    @login_required
     def post(self):
         selected_ingredientes = request.form.getlist('ingredientes')
         selected_producto = request.form.get('producto')

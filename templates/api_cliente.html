@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <title>Flask</title>
+</head>
+<body>
+
+    {% if current_user.is_authenticated %}
+        {% include '/menu-login.html' %}
+    {% else %}
+        {% include '/menu.html' %}
+    {% endif %}
+    
+
+    <div class="principal">
+
+        {% if current_user.is_authenticated %}
+            <h1 class="LoginH1">Bienvenido, {{ username }}!</h1>
+        {% else %}
+            <h1 class="LoginH1">Bienvenido</h1>
+        {% endif %}
+
+        <p class="pApi">Tienes acceso a las siguientes Apis:</p>
+
+        <table  class="principalTabla">
+
+            <tr>
+                <th>Api</th>
+                <th>Link Acceso</th>
+                <th>Modo Uso</th>
+            </tr>
+            <tr>
+                <td>Consultar todos los productos</td>
+                <td class="Ulink">/api/productos</td>
+                <td>Ingreso directo</td>
+            </tr>
+            <tr>
+                <td>Consultar un producto según su ID</td>
+                <td class="Ulink">/api/productos/&lt;int:id&gt;</td>
+                <td>Se cambia <strong>&lt;int:id&gt;</strong> por el id del producto ej: <strong>/1</strong></td>
+            </tr>
+            <tr>
+                <td>Consultar un producto según su nombre</td>
+                <td class="Ulink">/api/productos/nombre?nombre="nombre-producto"</td>
+                <td>Se cambia <strong>"nombre-producto"</strong> por el nombre del producto, ejemplo <strong>=malteada</strong></td>
+            </tr>
+            <tr>
+                <td>Vender un producto según su ID</td>
+                <td class="Ulink">/api/vender/&lt;int:id&gt;</td>
+                <td>Se cambia <strong>&lt;int:id&gt;</strong> por el id del producto ej: <strong>/1</strong></td>
+            </tr>     
+
+    </table>        
+        
+    </div>
+   
+</body>
+</html>

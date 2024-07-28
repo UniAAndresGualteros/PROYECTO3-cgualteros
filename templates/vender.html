@@ -35,7 +35,7 @@
 
                 <li>
                     <input type="radio" name="producto" value="{{ producto.idProducto }}" id="producto_{{ producto.idProducto }}">
-                    <label for="producto_{{ producto.idProducto }}">{{ producto.tipo_producto }} - {{ producto.nombre }}&nbsp   ${{'{:,}'.format(producto.precio_publico)}}</label>
+                    <label for="producto_{{ producto.idProducto }}">{{ producto.tipo_producto }}: {{ producto.tipo_producto }} - {{ producto.nombre }}&nbsp   ${{'{:,}'.format(producto.precio_publico)}}</label>
                 </li>
 
                 

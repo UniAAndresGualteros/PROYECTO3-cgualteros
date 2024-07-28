@@ -19,17 +19,21 @@
         <table  class="principalTabla">
 
                 <tr>
+                    <th>id Producto</th>
                     <th>Nombre</th>
                     <th>Tipo Producto</th>
                     <th>Presentacion</th>
+                    <th>Precio</th>
                 </tr>
 
                 
                 {% for producto in productos %}
                     <tr>
+                        <td>{{producto.idProducto}}</td>
                         <td>{{producto.nombre}}</td>
                         <td>{{producto.tipo_producto}}</td>
                         <td>{{producto.presentacion}}</td>
+                        <td>${{'{:,}'.format(producto.precio_publico)}}</td>
                     </tr>    
                 {% endfor %}
                 

@@ -1,5 +1,6 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, make_response
 from flask_restful import Resource
+from flask_login import login_required, current_user
 from models.productos import Productos
 from models.ingredientes import Ingredientes
 from models.productos import Productos
@@ -202,6 +203,7 @@ class RenovarInventario(Resource):
         
         
 class Vender(Resource):
+    @role_required([1,2,3])
     def get(self, id):
         producto = Productos.query.get_or_404(id)
         
@@ -300,6 +302,21 @@ class Rentabilidad(Resource):
             'Id Venta': venta.idVenta,
             'Rentabilidad': venta.precio_publico - venta.precio_total
         } for venta in ventas])
+        
+        
+class ConsultarApis(Resource):
+    def get(self):
+        if not current_user.is_authenticated:
+            return make_response(render_template("api_generico.html"))
+        else:
+            if current_user.rol_usuario == 1:
+                return make_response(render_template("api_admin.html", username=current_user.username))
+            elif current_user.rol_usuario == 2:
+                return make_response(render_template("api_empleado.html", username=current_user.username))
+            elif current_user.rol_usuario == 3:
+                return make_response(render_template("api_cliente.html", username=current_user.username))
+            else:
+                return make_response(render_template("api_generico.html"))
 
 
 

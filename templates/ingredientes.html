@@ -14,6 +14,7 @@
 
         <table class="principalTabla">
                 <tr>
+                    <th>ID Ingrediente</th>
                     <th>Nombre</th>
                     <th>Sabor</th>
                     <th>Precio</th>
@@ -26,6 +27,7 @@
                 
                 {% for ingrediente in ingredientes %}
                     <tr>
+                        <td>{{ingrediente.idIngrediente}}</td>
                         <td>{{ingrediente.nombre}}</td>
                         <td>
                             {% if ingrediente.sabores.nombre == "Sin Sabor" %}

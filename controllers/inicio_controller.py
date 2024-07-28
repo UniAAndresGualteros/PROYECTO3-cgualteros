@@ -29,3 +29,6 @@ class UsuarioController(Resource):
             return make_response(render_template("login.html"))
         
 
+
+        
+

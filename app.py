@@ -12,6 +12,7 @@ from controllers.consultas_controller import VentasController
 from controllers.heladeria_controller import HeladeriaController
 from controllers.heladeria_controller import HeladosVender
 from controllers.inicio_controller import UsuarioController
+from controllers.consultas_api import ConsultarApis
 from controllers.consultas_api import ProductosList
 from controllers.consultas_api import ProductoporID
 from controllers.consultas_api import ProductoporNombre
@@ -68,6 +69,7 @@ api.add_resource(UsuarioController, "/login")
 api.add_resource(HeladosVender, '/heladosvender')
 api.add_resource(IngredientesController, "/ingredientes")
 api.add_resource(VentasController, "/ventas")
+api.add_resource(ConsultarApis, "/api")
 api.add_resource(ProductosList, '/api/productos')
 api.add_resource(ProductoporID, '/api/productos/<int:id>')
 api.add_resource(ProductoporNombre, '/api/productos/nombre')
