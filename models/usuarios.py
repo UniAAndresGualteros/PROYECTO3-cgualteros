@@ -15,3 +15,6 @@ class Usuarios(UserMixin, db.Model):
         self.username = username
         self.password = password
         self.rol_usuario = rol_usuario
+        
+    def __repr__(self):
+        return f'<User {self.username}>'

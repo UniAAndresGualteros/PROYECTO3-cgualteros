@@ -1,4 +1,5 @@
 from db import db
+from models.sabores import Sabores
 
 class Ingredientes(db.Model):
     idIngrediente = db.Column(db.Integer, primary_key=True)
@@ -15,13 +16,15 @@ class Ingredientes(db.Model):
     
     def es_sano(idIngrediente) -> bool:
         ingrediente = Ingredientes.query.get(idIngrediente)
+        
         if ingrediente.calorias < 100 or ingrediente.es_vegetariano:
             return True
         return False
         
     
     def abastecer(idIngrediente):
-        ingrediente = Ingredientes.query.get(idIngrediente)
+        ingrediente = Ingredientes.query.join(Sabores, Ingredientes.sabor_base == Sabores.idSabor).filter(Ingredientes.idIngrediente == idIngrediente).first()
+    
         if ingrediente:
             if ingrediente.tipo_ingrediente == 'Base':
                 ingrediente.inventario += 5
@@ -39,7 +42,11 @@ class Ingredientes(db.Model):
         ingrediente = Ingredientes.query.get(idIngrediente)
         if ingrediente.tipo_ingrediente =='Complemento':
             ingrediente.inventario = 0
+            mensaje = f"Inventario Renovado"
+        else:
+            mensaje = f"Ingrediente no es complemento"
             
         db.session.commit()
-        return f"Inventario Renovado"
+        return mensaje
+        
         

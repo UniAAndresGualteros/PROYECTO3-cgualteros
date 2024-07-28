@@ -6,6 +6,7 @@ from models.sabores import Sabores
 from models. productos import Productos
 from db import db
 from sqlalchemy import text # type: ignore
+from flask_login import login_required
 
 
 class VentasController(Resource):
@@ -31,6 +32,7 @@ class VentasController(Resource):
     
 class IngredientesController(Resource):
     
+    @login_required
     def get(self):
         ingredientes = Ingredientes.query.join(Sabores, Ingredientes.sabor_base==Sabores.idSabor).order_by(Ingredientes.idIngrediente).all()
         return make_response(render_template("ingredientes.html",ingredientes=ingredientes))
@@ -38,6 +40,7 @@ class IngredientesController(Resource):
     
 class ProductosController(Resource):
     
+    @login_required
     def get(self):
         productos = Productos.query.all()
         return make_response(render_template("productos.html",productos=productos))

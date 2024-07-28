@@ -13,6 +13,8 @@
         <a href="/productos" class="menua">Productos</a>    
         <a href="/ingredientes"class="menua">Ingredientes</a>
         <a href="/ventas"class="menua">Ventas</a>
+        <form action="{{ url_for('logout') }}" method="post">
+            <button type="submit">Logout</button>
     </div>
         
     <div class="principal">

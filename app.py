@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_login import LoginManager, login_required, login_user, current_user
-from flask_restful import Api # type: ignore
+from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response
+from flask_login import LoginManager, login_required, login_user,logout_user, current_user
+from flask_restful import Api, Resource
 from dotenv import load_dotenv # type: ignore
-from db import db, login_manager
+from db import db
 import os
+from functools import wraps
 
 from controllers.consultas_controller import IngredientesController
 from controllers.consultas_controller import ProductosController
@@ -11,8 +12,20 @@ from controllers.consultas_controller import VentasController
 from controllers.heladeria_controller import HeladeriaController
 from controllers.heladeria_controller import HeladosVender
 from controllers.inicio_controller import UsuarioController
-from controllers.consultas_api import *
+from controllers.consultas_api import ProductosList
+from controllers.consultas_api import ProductoporID
+from controllers.consultas_api import ProductoporNombre
+from controllers.consultas_api import IngredientesList
+from controllers.consultas_api import IngredienteporID
+from controllers.consultas_api import IngredienteporNombre
+from controllers.consultas_api import AbastecerIngrediente
+from controllers.consultas_api import IngredienteSano
+from controllers.consultas_api import RenovarInventario
+from controllers.consultas_api import Vender
+from controllers.consultas_api import CostoProducto
+from controllers.consultas_api import Rentabilidad
 from models.usuarios import Usuarios
+from auth import *
 
 
 load_dotenv()
@@ -36,7 +49,16 @@ def load_user(user_id):
     return None
 
 
+@app.route('/logout', methods=['POST'])
+@login_required
+def logout():
+    logout_user()
+    return make_response(render_template("login.html"))
 
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return make_response(render_template("login.html"))
 
 
 
@@ -48,15 +70,19 @@ api.add_resource(ProductosController, "/productos")
 api.add_resource(VentasController, "/ventas")
 api.add_resource(ProductosList, '/api/productos')
 api.add_resource(ProductoporID, '/api/productos/<int:id>')
+api.add_resource(ProductoporNombre, '/api/productos/nombre')
+api.add_resource(Rentabilidad, '/api/rentabilidad/<int:id>')
+api.add_resource(CostoProducto, '/api/costos/<int:id>')
+api.add_resource(Vender, '/api/vender/<int:id>')
 api.add_resource(IngredientesList, '/api/ingredientes')
 api.add_resource(IngredienteporID, '/api/ingredientes/<int:id>')
 api.add_resource(IngredienteporNombre, '/api/ingredientes/nombre')
-api.add_resource(AbastecerIngrediente, '/api/ingredientes/abastecer/<int:id>')
-api.add_resource(ProductoporNombre, '/api/productos/nombre')
 api.add_resource(IngredienteSano, '/api/ingredientes/es_sano/<int:id>')
+api.add_resource(AbastecerIngrediente, '/api/ingredientes/abastecer/<int:id>')
 api.add_resource(RenovarInventario, '/api/ingredientes/renovar/<int:id>')
-api.add_resource(Vender, '/api/vender/<int:id>')
-api.add_resource(CostoProducto, '/api/costos/<int:id>')
+
+
+
 
 
 if __name__ == '__main__':
