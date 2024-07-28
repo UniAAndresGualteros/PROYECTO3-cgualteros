@@ -52,6 +52,7 @@ class HeladosVender(Resource):
             return redirect(url_for('heladeriacontroller'))
 
         precio_total = precio_plastico + precioBase
+        precioPublico = producto.precio_publico
 
         nueva_venta = Ventas(
             producto=selected_producto,
@@ -60,7 +61,8 @@ class HeladosVender(Resource):
             ingrediente_3=selected_ingredientes[2],
             precio_base = precioBase,
             precio_plastico = precio_plastico,
-            precio_total =precio_total
+            precio_total =precio_total,
+            precio_publico= precioPublico
         )
 
         try:

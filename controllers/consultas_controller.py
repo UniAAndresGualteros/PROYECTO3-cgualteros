@@ -14,7 +14,7 @@ class VentasController(Resource):
         sql_query = text("""
         select V.fecha_venta, P.nombre as Producto, P.tipo_producto, concat(I1.nombre,' ',S1.nombre) Ingrediente1, I1.precio as Precio_1, I1.tipo_ingrediente as Tipo_1,
         concat(I2.nombre,' ',S2.nombre) Ingrediente2, I2.precio as Precio_2, I2.tipo_ingrediente as Tipo_2, concat(I3.nombre,' ',S3.nombre) Ingrediente3,
-        I3.precio as Precio_3, I3.tipo_ingrediente as Tipo_3, V.precio_base, V.precio_plastico, V.precio_total 
+        I3.precio as Precio_3, I3.tipo_ingrediente as Tipo_3, V.precio_base, V.precio_plastico, V.precio_total, V.precio_publico 
         from ventas V inner join productos P on V.producto= P.idProducto 
         inner join ingredientes I1 on V.ingrediente_1 = I1.idIngrediente
         inner join ingredientes I2 on V.ingrediente_2 = I2.idIngrediente

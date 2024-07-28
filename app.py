@@ -11,15 +11,7 @@ from controllers.consultas_controller import VentasController
 from controllers.heladeria_controller import HeladeriaController
 from controllers.heladeria_controller import HeladosVender
 from controllers.inicio_controller import UsuarioController
-from controllers.consultas_api import ProductosList
-from controllers.consultas_api import ProductoporID
-from controllers.consultas_api import ProductoporNombre
-from controllers.consultas_api import IngredientesList
-from controllers.consultas_api import IngredienteporID
-from controllers.consultas_api import IngredienteporNombre
-from controllers.consultas_api import AbastecerIngrediente
-from controllers.consultas_api import RenovarInventario
-from controllers.consultas_api import IngredienteSano
+from controllers.consultas_api import *
 from models.usuarios import Usuarios
 
 
@@ -63,6 +55,8 @@ api.add_resource(AbastecerIngrediente, '/api/ingredientes/abastecer/<int:id>')
 api.add_resource(ProductoporNombre, '/api/productos/nombre')
 api.add_resource(IngredienteSano, '/api/ingredientes/es_sano/<int:id>')
 api.add_resource(RenovarInventario, '/api/ingredientes/renovar/<int:id>')
+api.add_resource(Vender, '/api/vender/<int:id>')
+api.add_resource(CostoProducto, '/api/costos/<int:id>')
 
 
 if __name__ == '__main__':

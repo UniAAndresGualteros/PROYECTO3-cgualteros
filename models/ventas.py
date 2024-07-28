@@ -17,6 +17,7 @@ class Ventas(db.Model):
     precio_base = db.Column(db.Float, nullable=False)
     precio_plastico = db.Column(db.Float, nullable=False)
     precio_total = db.Column(db.Float, nullable=False)
+    precio_publico = db.Column(db.Float, nullable=False)
     
     productos = db.relationship('Productos', backref='ventas',lazy=True)
     ingredientes = db.relationship('Ingredientes', backref='ventas',lazy=True)
