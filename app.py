@@ -6,25 +6,14 @@ from db import db
 import os
 from functools import wraps
 
-from controllers.consultas_controller import IngredientesController
-from controllers.consultas_controller import ProductosController
-from controllers.consultas_controller import VentasController
-from controllers.heladeria_controller import HeladeriaController
-from controllers.heladeria_controller import HeladosVender
+from controllers.consultas_controller import IngredientesController, ProductosController, VentasController, CaloriasController
+
+from controllers.heladeria_controller import HeladeriaController, HeladosVender
+ 
 from controllers.inicio_controller import UsuarioController
-from controllers.consultas_api import ConsultarApis
-from controllers.consultas_api import ProductosList
-from controllers.consultas_api import ProductoporID
-from controllers.consultas_api import ProductoporNombre
-from controllers.consultas_api import IngredientesList
-from controllers.consultas_api import IngredienteporID
-from controllers.consultas_api import IngredienteporNombre
-from controllers.consultas_api import AbastecerIngrediente
-from controllers.consultas_api import IngredienteSano
-from controllers.consultas_api import RenovarInventario
-from controllers.consultas_api import Vender
-from controllers.consultas_api import CostoProducto
-from controllers.consultas_api import Rentabilidad
+
+from controllers.consultas_api import ConsultarApis, ProductosList, ProductoporID, ProductoporNombre, IngredientesList, IngredienteporID, IngredienteporNombre ,AbastecerIngrediente,IngredienteSano, IngredienteSano, RenovarInventario, Vender, CostoProducto, Rentabilidad, CaloriasporProducto
+
 from models.usuarios import Usuarios
 from auth import *
 
@@ -68,11 +57,13 @@ api.add_resource(HeladeriaController, "/vender")
 api.add_resource(UsuarioController, "/login")
 api.add_resource(HeladosVender, '/heladosvender')
 api.add_resource(IngredientesController, "/ingredientes")
+api.add_resource(CaloriasController, "/calorias")
 api.add_resource(VentasController, "/ventas")
 api.add_resource(ConsultarApis, "/api")
 api.add_resource(ProductosList, '/api/productos')
 api.add_resource(ProductoporID, '/api/productos/<int:id>')
 api.add_resource(ProductoporNombre, '/api/productos/nombre')
+api.add_resource(CaloriasporProducto, '/api/calorias/<int:id>')
 api.add_resource(Rentabilidad, '/api/rentabilidad/<int:id>')
 api.add_resource(CostoProducto, '/api/costos/<int:id>')
 api.add_resource(Vender, '/api/vender/<int:id>')

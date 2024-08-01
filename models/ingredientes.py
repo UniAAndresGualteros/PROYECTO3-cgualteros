@@ -23,7 +23,7 @@ class Ingredientes(db.Model):
         
     
     def abastecer(idIngrediente):
-        ingrediente = Ingredientes.query.join(Sabores, Ingredientes.sabor_base == Sabores.idSabor).filter(Ingredientes.idIngrediente == idIngrediente).first()
+        ingrediente = Ingredientes.query.filter(Ingredientes.idIngrediente == idIngrediente).first()
     
         if ingrediente:
             if ingrediente.tipo_ingrediente == 'Base':

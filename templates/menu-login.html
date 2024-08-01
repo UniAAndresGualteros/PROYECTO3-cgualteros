@@ -2,7 +2,8 @@
 
 {% if current_user.rol_usuario == 1 or current_user.rol_usuario == 2 %}
             <div class="menu">
-                <a href="/" class="menua">Inicio</a>    
+                <a href="/" class="menua">Inicio</a>
+                <a href="/calorias"class="menua">Calorias</a>    
                 <a href="/vender" class="menua">Comprar</a>    
                 <a href="/ingredientes"class="menua">Ingredientes</a>
                 <a href="/ventas"class="menua">Ventas</a>
@@ -11,7 +12,8 @@
             </div>
         {% else %}
         <div class="menu">
-            <a href="/" class="menua">Inicio</a>    
+            <a href="/" class="menua">Inicio</a>
+            <a href="/calorias"class="menua">Calorias</a>    
             <a href="/vender" class="menua">Comprar</a>
             <a href="/api"class="menua">Apis</a>    
             <a href="{{ url_for('logout') }}"class="menua">Salir</a>

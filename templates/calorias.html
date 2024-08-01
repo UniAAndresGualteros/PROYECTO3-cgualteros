@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <title>Flask</title>
+</head>
+<body>
+
+    {% include '/menu-login.html' %}
+
+    <div class="principal">
+        <table class="principalTabla">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Tipo de Producto</th>
+                    <th>Ingrediente 1</th>
+                    <th>Ingrediente 2</th>
+                    <th>Ingrediente 3</th>
+                    <th>Calorías</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta.productos.nombre }}</td>
+                    <td>{{ venta.productos.tipo_producto }}</td>
+                    <td>
+                        <em>{{ venta.ingrediente1.tipo_ingrediente }}</em> - <strong>{{ venta.ingrediente1.nombre }}
+                        {% if venta.ingrediente1.sabores.nombre != "Sin Sabor" %}
+                            {{ venta.ingrediente1.sabores.nombre }}
+                        {% endif %}</strong>
+                    </td>
+                    <td>
+                        <em>{{ venta.ingrediente2.tipo_ingrediente }}</em> - <strong>{{ venta.ingrediente2.nombre }}
+                        {% if venta.ingrediente2.sabores.nombre != "Sin Sabor" %}
+                            {{ venta.ingrediente2.sabores.nombre }}</strong>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <em>{{ venta.ingrediente3.tipo_ingrediente }}</em> - <strong>{{ venta.ingrediente3.nombre }}
+                        {% if venta.ingrediente3.sabores.nombre != "Sin Sabor" %}
+                            {{ venta.ingrediente3.sabores.nombre }}</strong>
+                        {% endif %}
+                    </td>
+                    <td>{{ venta.ContarCalorias() }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -36,17 +36,35 @@
                 {% for venta in ventas %}
                 <tr>
                     <td>{{ venta.fecha_venta }}</td>
-                    <td>{{ venta.Producto }}</td>
-                    <td>{{ venta.tipo_producto }}</td>
-                    <td>{{ venta.Ingrediente1 }}</td>
-                    <td>${{ '{:,.2f}'.format(venta.Precio_1) }}</td>
-                    <td>{{ venta.Tipo_1 }}</td>
-                    <td>{{ venta.Ingrediente2 }}</td>
-                    <td>${{ '{:,.2f}'.format(venta.Precio_2) }}</td>
-                    <td>{{ venta.Tipo_2 }}</td>
-                    <td>{{ venta.Ingrediente3 }}</td>
-                    <td>${{ '{:,.2f}'.format(venta.Precio_3) }}</td>
-                    <td>{{ venta.Tipo_3 }}</td>
+                    <td>{{ venta.productos.nombre }}</td>
+                    <td>{{ venta.productos.tipo_producto }}</td>
+                    <td>{{ venta.ingrediente1.nombre}}
+                        {% if venta.ingrediente1.sabores.nombre == "Sin Sabor" %}
+                               
+                        {% else %}
+                            {{venta.ingrediente1.sabores.nombre}}
+                        {% endif %}
+                    </td>
+                    <td>${{ '{:,.2f}'.format(venta.ingrediente1.precio) }}</td>
+                    <td>{{ venta.ingrediente1.tipo_ingrediente }}</td>
+                    <td>{{ venta.ingrediente1.nombre}}
+                        {% if venta.ingrediente2.sabores.nombre == "Sin Sabor" %}
+                               
+                        {% else %}
+                            {{venta.ingrediente2.sabores.nombre}}
+                        {% endif %}
+                    </td>
+                    <td>${{  '{:,.2f}'.format(venta.ingrediente2.precio) }}</td>
+                    <td>{{ venta.ingrediente2.tipo_ingrediente }}</td>
+                    <td>{{ venta.ingrediente1.nombre}}
+                        {% if venta.ingrediente3.sabores.nombre == "Sin Sabor" %}
+                               
+                        {% else %}
+                            {{venta.ingrediente3.sabores.nombre}}
+                        {% endif %}
+                    </td>
+                    <td>${{  '{:,.2f}'.format(venta.ingrediente3.precio) }}</td>
+                    <td>{{ venta.ingrediente3.tipo_ingrediente }}</td>
                     <td>${{ '{:,.2f}'.format(venta.precio_base) }}</td>
                     <td>${{ '{:,.2f}'.format(venta.precio_plastico) }}</td>
                     <td>${{ '{:,.2f}'.format(venta.precio_total) }}</td>

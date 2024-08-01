@@ -22,6 +22,8 @@ class ProductosList(Resource):
             'Presentacion': prod.presentacion
         } for prod in productos])
         
+
+        
 class ProductoporID(Resource):
     def get(self, id):
         producto = Productos.query.get_or_404(id)
@@ -51,157 +53,78 @@ class ProductoporNombre(Resource):
         } for prod in productos])       
 
 
-class IngredientesList(Resource):
-    
-    @role_required([1,2]) 
-    def get(self):
-        ingredientes = Ingredientes.query.join(Sabores, Ingredientes.sabor_base==Sabores.idSabor).all()
+class CaloriasporProducto(Resource):
+    @role_required([1,2,3])
+    def get(self,id):
+        ventas = Ventas.query.filter_by(producto=id).all()
+
+        if not ventas:
+            return jsonify({'error': 'No se encontraron ventas para el producto especificado.'}), 404
         
-        ingredientes_list = []
-        for ing in ingredientes:
-            if ing.sabores.nombre == 'Sin Sabor':
-                ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
-                    'nombre': ing.nombre,
-                    'precio': ing.precio,
-                    'tipo_ingrediente': ing.tipo_ingrediente,
-                    'inventario': ing.inventario
-                }
+        data = []
+        for venta in ventas:
+            calorias = venta.ContarCalorias()
+            venta_data = {
+                'producto': venta.productos.nombre,
+                'calorias': calorias
+            }
+            if venta.ingrediente1.sabores.nombre == "Sin Sabor":
+                venta_data['ingrediente_1'] = f"{venta.ingrediente1.nombre}"
             else:
-                ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
-                    'nombre': ing.nombre + " " + ing.sabores.nombre,
-                    'precio': ing.precio,
-                    'tipo_ingrediente': ing.tipo_ingrediente,
-                    'inventario': ing.inventario
-                }
-            ingredientes_list.append(ingrediente_data)
-        
-        return jsonify(ingredientes_list)
-            
-
-class IngredienteporID(Resource):
-    
-    @role_required([1,2]) 
-    def get(self, id):
-        ingredientes = Ingredientes.query.filter_by(idIngrediente=id).join(Sabores, Ingredientes.sabor_base==Sabores.idSabor)
-
-        ingredientes_list = []
-        for ing in ingredientes:
-            if ing.sabores.nombre == 'Sin Sabor':
-                ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
-                    'nombre': ing.nombre,
-                    'precio': ing.precio,
-                    'tipo_ingrediente': ing.tipo_ingrediente,
-                    'inventario': ing.inventario
-                }
+                venta_data['ingrediente_1'] = f"{venta.ingrediente1.nombre} {venta.ingrediente1.sabores.nombre}"
+            if venta.ingrediente2.sabores.nombre == "Sin Sabor":
+                venta_data['ingrediente_2'] = f"{venta.ingrediente2.nombre}"
             else:
-                ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
-                    'nombre': ing.nombre + " " + ing.sabores.nombre,
-                    'precio': ing.precio,
-                    'tipo_ingrediente': ing.tipo_ingrediente,
-                    'inventario': ing.inventario
-                }
-            ingredientes_list.append(ingrediente_data)
-        
-        return jsonify(ingredientes_list)
-        
-        
-class IngredienteporNombre(Resource):
-    
-    @role_required([1,2]) 
-    def get(self):
-        nombre = request.args.get('nombre', None)
-        if nombre is None:
-            return jsonify({'error': 'Debe proporcionar un nombre de ingrediente'}), 400
-
-        ingredientes = Ingredientes.query.filter(Ingredientes.nombre.like(f"%{nombre}%")).join(Sabores, Ingredientes.sabor_base==Sabores.idSabor).all()
-        if not ingredientes:
-            return jsonify({'message': 'No se encontraron ingredientes con ese nombre'})
-
-        ingredientes_list = []
-        for ing in ingredientes:
-            if ing.sabores.nombre == 'Sin Sabor':
-                ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
-                    'nombre': ing.nombre,
-                    'precio': ing.precio,
-                    'tipo_ingrediente': ing.tipo_ingrediente,
-                    'inventario': ing.inventario
-                }
+                venta_data['ingrediente_2'] = f"{venta.ingrediente2.nombre} {venta.ingrediente2.sabores.nombre}"
+            if venta.ingrediente3.sabores.nombre == "Sin Sabor":
+                venta_data['ingrediente_3'] = f"{venta.ingrediente3.nombre}"
             else:
-                ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
-                    'nombre': ing.nombre + " " + ing.sabores.nombre,
-                    'precio': ing.precio,
-                    'tipo_ingrediente': ing.tipo_ingrediente,
-                    'inventario': ing.inventario
-                }
-            ingredientes_list.append(ingrediente_data)
-        
-        return jsonify(ingredientes_list)
+                venta_data['ingrediente_3'] = f"{venta.ingrediente3.nombre} {venta.ingrediente3.sabores.nombre}"
+                
+            data.append(venta_data)
+            
+        return jsonify(data)
 
 
-class AbastecerIngrediente(Resource):
-    @role_required([1,2]) 
-    def get(self, id):
-        try:
-            ingrediente = Ingredientes.abastecer(id)
-            
-            ingredientes_list = []
-            if ingrediente.sabores.nombre == 'Sin Sabor':
-                    ingrediente_data = {
-                        'idIngrediente': ingrediente.idIngrediente,
-                        'nombre': ingrediente.nombre,
-                        'precio': ingrediente.precio,
-                        'tipo_ingrediente': ingrediente.tipo_ingrediente,
-                        'inventario': ingrediente.inventario,
-                        'message': 'Ingrediente abastecido exitosamente'
-                    }
-            else:
-                    ingrediente_data = {
-                        'idIngrediente': ingrediente.idIngrediente,
-                        'nombre': ingrediente.nombre + " " + ingrediente.sabores.nombre,
-                        'precio': ingrediente.precio,
-                        'tipo_ingrediente': ingrediente.tipo_ingrediente,
-                        'inventario': ingrediente.inventario,
-                        'message': 'Ingrediente abastecido exitosamente'
-                    }
-            ingredientes_list.append(ingrediente_data)
-            
-            return jsonify(ingredientes_list)
-            
-            
-        except ValueError as e:
-            return jsonify({'error': str(e)}), 400
+class Rentabilidad(Resource):
+    @role_required([1]) 
+    def get(self,id):
         
+        if id is None:
+            return jsonify({'error': 'Debe proporcionar el idProducto'}), 400
+        
+        ventas = Ventas.query.filter_by(producto=id).all()
+        
+        if not ventas:
+            return jsonify({'message': 'No se encontraron ventas para el producto especificado'})
+        
+        return jsonify([{
+            'Nombre Producto': venta.productos.nombre,
+            'Id Venta': venta.idVenta,
+            'Rentabilidad': venta.precio_publico - venta.precio_total
+        } for venta in ventas])
+ 
+        
+class CostoProducto(Resource):
+    @role_required([1]) 
+    def get(self,id):
+        
+        if id is None:
+            return jsonify({'error': 'Debe proporcionar el idProducto'}), 400
+        
+        ventas = Ventas.query.filter_by(producto=id).all()
+        
+        if not ventas:
+            return jsonify({'message': 'No se encontraron ventas para el producto especificado'})
+        
+        return jsonify([{
+            'Nombre Producto': venta.productos.nombre,
+            'Costo Ingredientes': venta.precio_base,
+            'Costo Plastico': venta.precio_plastico,
+            'Costo Produccion': venta.precio_total
+        } for venta in ventas])
 
-class IngredienteSano(Resource):
-    @role_required([1,2]) 
-    def get(self, id):
-        try:
-            ingrediente = Ingredientes.es_sano(id)
-            return jsonify({
-                'Ingrediente Es Sano? :': ingrediente
-            })
-        except ValueError as e:
-            return jsonify({'error': str(e)}), 400
-        
 
-class RenovarInventario(Resource):
-    @role_required([1,2]) 
-    def get(self, id):
-        try:
-            ingrediente = Ingredientes.renovar_inventario(id)
-            return jsonify({
-                'Mensaje': ingrediente
-            })
-        except ValueError as e:
-            return jsonify({'error': str(e)}), 400
-        
-        
 class Vender(Resource):
     @role_required([1,2,3])
     def get(self, id):
@@ -263,45 +186,161 @@ class Vender(Resource):
             'precio_publico': venta.precio_publico,
             'message': 'Venta realizada exitosamente'
         })
+
+
+class IngredientesList(Resource):
+    
+    @role_required([1,2]) 
+    def get(self):
+        ingredientes = Ingredientes.query.all()
+        
+        ingredientes_list = []
+        for ing in ingredientes:
+            if ing.sabores.nombre == 'Sin Sabor':
+                ingrediente_data = {
+                    'idIngrediente': ing.idIngrediente,
+                    'nombre': ing.nombre,
+                    'precio': ing.precio,
+                    'tipo_ingrediente': ing.tipo_ingrediente,
+                    'inventario': ing.inventario
+                }
+            else:
+                ingrediente_data = {
+                    'idIngrediente': ing.idIngrediente,
+                    'nombre': ing.nombre + " " + ing.sabores.nombre,
+                    'precio': ing.precio,
+                    'tipo_ingrediente': ing.tipo_ingrediente,
+                    'inventario': ing.inventario
+                }
+            ingredientes_list.append(ingrediente_data)
+        
+        return jsonify(ingredientes_list)
+            
+
+class IngredienteporID(Resource):
+    
+    @role_required([1,2]) 
+    def get(self, id):
+        ingredientes = Ingredientes.query.filter_by(idIngrediente=id)
+
+        ingredientes_list = []
+        for ing in ingredientes:
+            if ing.sabores.nombre == 'Sin Sabor':
+                ingrediente_data = {
+                    'idIngrediente': ing.idIngrediente,
+                    'nombre': ing.nombre,
+                    'precio': ing.precio,
+                    'tipo_ingrediente': ing.tipo_ingrediente,
+                    'inventario': ing.inventario
+                }
+            else:
+                ingrediente_data = {
+                    'idIngrediente': ing.idIngrediente,
+                    'nombre': ing.nombre + " " + ing.sabores.nombre,
+                    'precio': ing.precio,
+                    'tipo_ingrediente': ing.tipo_ingrediente,
+                    'inventario': ing.inventario
+                }
+            ingredientes_list.append(ingrediente_data)
+        
+        return jsonify(ingredientes_list)
         
         
-class CostoProducto(Resource):
-    @role_required([1]) 
-    def get(self,id):
+class IngredienteporNombre(Resource):
+    
+    @role_required([1,2]) 
+    def get(self):
+        nombre = request.args.get('nombre', None)
+        if nombre is None:
+            return jsonify({'error': 'Debe proporcionar un nombre de ingrediente'}), 400
+
+        ingredientes = Ingredientes.query.filter(Ingredientes.nombre.like(f"%{nombre}%")).all()
+        if not ingredientes:
+            return jsonify({'message': 'No se encontraron ingredientes con ese nombre'})
+
+        ingredientes_list = []
+        for ing in ingredientes:
+            if ing.sabores.nombre == 'Sin Sabor':
+                ingrediente_data = {
+                    'idIngrediente': ing.idIngrediente,
+                    'nombre': ing.nombre,
+                    'precio': ing.precio,
+                    'tipo_ingrediente': ing.tipo_ingrediente,
+                    'inventario': ing.inventario
+                }
+            else:
+                ingrediente_data = {
+                    'idIngrediente': ing.idIngrediente,
+                    'nombre': ing.nombre + " " + ing.sabores.nombre,
+                    'precio': ing.precio,
+                    'tipo_ingrediente': ing.tipo_ingrediente,
+                    'inventario': ing.inventario
+                }
+            ingredientes_list.append(ingrediente_data)
         
-        if id is None:
-            return jsonify({'error': 'Debe proporcionar el idProducto'}), 400
+        return jsonify(ingredientes_list)
+
+   
+    
+class IngredienteSano(Resource):
+    @role_required([1,2]) 
+    def get(self, id):
+        try:
+            ingrediente = Ingredientes.es_sano(id)
+            return jsonify({
+                'Ingrediente Es Sano? :': ingrediente
+            })
+        except ValueError as e:
+            return jsonify({'error': str(e)}), 400
+
+
+
+class AbastecerIngrediente(Resource):
+    @role_required([1,2]) 
+    def get(self, id):
+        try:
+            ingrediente = Ingredientes.abastecer(id)
+            
+            ingredientes_list = []
+            if ingrediente.sabores.nombre == 'Sin Sabor':
+                    ingrediente_data = {
+                        'idIngrediente': ingrediente.idIngrediente,
+                        'nombre': ingrediente.nombre,
+                        'precio': ingrediente.precio,
+                        'tipo_ingrediente': ingrediente.tipo_ingrediente,
+                        'inventario': ingrediente.inventario,
+                        'message': 'Ingrediente abastecido exitosamente'
+                    }
+            else:
+                    ingrediente_data = {
+                        'idIngrediente': ingrediente.idIngrediente,
+                        'nombre': ingrediente.nombre + " " + ingrediente.sabores.nombre,
+                        'precio': ingrediente.precio,
+                        'tipo_ingrediente': ingrediente.tipo_ingrediente,
+                        'inventario': ingrediente.inventario,
+                        'message': 'Ingrediente abastecido exitosamente'
+                    }
+            ingredientes_list.append(ingrediente_data)
+            
+            return jsonify(ingredientes_list)
+            
+            
+        except ValueError as e:
+            return jsonify({'error': str(e)}), 400
         
-        ventas = Ventas.query.filter_by(producto=id).join(Productos, Ventas.producto==Productos.idProducto).all()
-        
-        if not ventas:
-            return jsonify({'message': 'No se encontraron ventas para el producto especificado'})
-        
-        return jsonify([{
-            'Nombre Producto': venta.productos.nombre,
-            'Costo Ingredientes': venta.precio_base,
-            'Costo Plastico': venta.precio_plastico,
-            'Costo Produccion': venta.precio_total
-        } for venta in ventas])
-        
-        
-class Rentabilidad(Resource):
-    @role_required([1]) 
-    def get(self,id):
-        
-        if id is None:
-            return jsonify({'error': 'Debe proporcionar el idProducto'}), 400
-        
-        ventas = Ventas.query.filter_by(producto=id).join(Productos, Ventas.producto==Productos.idProducto).all()
-        
-        if not ventas:
-            return jsonify({'message': 'No se encontraron ventas para el producto especificado'})
-        
-        return jsonify([{
-            'Nombre Producto': venta.productos.nombre,
-            'Id Venta': venta.idVenta,
-            'Rentabilidad': venta.precio_publico - venta.precio_total
-        } for venta in ventas])
+     
+
+class RenovarInventario(Resource):
+    @role_required([1,2]) 
+    def get(self, id):
+        try:
+            ingrediente = Ingredientes.renovar_inventario(id)
+            return jsonify({
+                'Mensaje': ingrediente
+            })
+        except ValueError as e:
+            return jsonify({'error': str(e)}), 400
+          
         
         
 class ConsultarApis(Resource):
