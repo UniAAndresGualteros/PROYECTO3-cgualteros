@@ -16,7 +16,7 @@ class ProductosList(Resource):
     def get(self):
         productos = Productos.query.all()
         return jsonify([{
-            'idProducto': prod.idProducto,
+            'idProducto': prod.idproducto,
             'nombre': prod.nombre,
             'Tipo Producto': prod.tipo_producto,
             'Presentacion': prod.presentacion
@@ -28,7 +28,7 @@ class ProductoporID(Resource):
     def get(self, id):
         producto = Productos.query.get_or_404(id)
         return jsonify({
-            'idProducto': producto.idProducto,
+            'idProducto': producto.idproducto,
             'nombre': producto.nombre,
             'Tipo Producto': producto.tipo_producto,
             'Presentacion': producto.presentacion
@@ -46,7 +46,7 @@ class ProductoporNombre(Resource):
             return jsonify({'message': 'No se encontraron ingredientes con ese nombre'})
 
         return jsonify([{
-            'idProducto': prod.idProducto,
+            'idProducto': prod.idproducto,
             'nombre': prod.nombre,
             'Tipo Producto': prod.tipo_producto,
             'Presentacion': prod.presentacion
@@ -100,7 +100,7 @@ class Rentabilidad(Resource):
         
         return jsonify([{
             'Nombre Producto': venta.productos.nombre,
-            'Id Venta': venta.idVenta,
+            'Id Venta': venta.idventa,
             'Rentabilidad': venta.precio_publico - venta.precio_total
         } for venta in ventas])
  
@@ -137,9 +137,9 @@ class Vender(Resource):
 
         # Seleccionar 3 ingredientes aleatoriamente
         ingredientes_seleccionados = random.sample(ingredientes, 3)
-        id_ingrediente_1 = ingredientes_seleccionados[0].idIngrediente
-        id_ingrediente_2 = ingredientes_seleccionados[1].idIngrediente
-        id_ingrediente_3 = ingredientes_seleccionados[2].idIngrediente
+        id_ingrediente_1 = ingredientes_seleccionados[0].idingrediente
+        id_ingrediente_2 = ingredientes_seleccionados[1].idingrediente
+        id_ingrediente_3 = ingredientes_seleccionados[2].idingrediente
 
         
         precio_base = sum(ing.precio for ing in ingredientes_seleccionados)
@@ -153,7 +153,7 @@ class Vender(Resource):
             precio_plastico = 0
 
         venta = Ventas(
-            producto=producto.idProducto,
+            producto=producto.idproducto,
             ingrediente_1=id_ingrediente_1,
             ingrediente_2=id_ingrediente_2,
             ingrediente_3=id_ingrediente_3,
@@ -174,7 +174,7 @@ class Vender(Resource):
         db.session.commit()
 
         return jsonify({
-            'idVenta': venta.idVenta,
+            'idVenta': venta.idventa,
             'fecha_venta': venta.fecha_venta,
             'idProducto': venta.producto,
             'ingrediente_1': venta.ingrediente_1,
@@ -198,7 +198,7 @@ class IngredientesList(Resource):
         for ing in ingredientes:
             if ing.sabores.nombre == 'Sin Sabor':
                 ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
+                    'idIngrediente': ing.idingrediente,
                     'nombre': ing.nombre,
                     'precio': ing.precio,
                     'tipo_ingrediente': ing.tipo_ingrediente,
@@ -206,7 +206,7 @@ class IngredientesList(Resource):
                 }
             else:
                 ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
+                    'idIngrediente': ing.idingrediente,
                     'nombre': ing.nombre + " " + ing.sabores.nombre,
                     'precio': ing.precio,
                     'tipo_ingrediente': ing.tipo_ingrediente,
@@ -221,13 +221,13 @@ class IngredienteporID(Resource):
     
     @role_required([1,2]) 
     def get(self, id):
-        ingredientes = Ingredientes.query.filter_by(idIngrediente=id)
+        ingredientes = Ingredientes.query.filter_by(idingrediente=id)
 
         ingredientes_list = []
         for ing in ingredientes:
             if ing.sabores.nombre == 'Sin Sabor':
                 ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
+                    'idIngrediente': ing.idingrediente,
                     'nombre': ing.nombre,
                     'precio': ing.precio,
                     'tipo_ingrediente': ing.tipo_ingrediente,
@@ -235,7 +235,7 @@ class IngredienteporID(Resource):
                 }
             else:
                 ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
+                    'idIngrediente': ing.idingrediente,
                     'nombre': ing.nombre + " " + ing.sabores.nombre,
                     'precio': ing.precio,
                     'tipo_ingrediente': ing.tipo_ingrediente,
@@ -262,7 +262,7 @@ class IngredienteporNombre(Resource):
         for ing in ingredientes:
             if ing.sabores.nombre == 'Sin Sabor':
                 ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
+                    'idIngrediente': ing.idingrediente,
                     'nombre': ing.nombre,
                     'precio': ing.precio,
                     'tipo_ingrediente': ing.tipo_ingrediente,
@@ -270,7 +270,7 @@ class IngredienteporNombre(Resource):
                 }
             else:
                 ingrediente_data = {
-                    'idIngrediente': ing.idIngrediente,
+                    'idIngrediente': ing.idingrediente,
                     'nombre': ing.nombre + " " + ing.sabores.nombre,
                     'precio': ing.precio,
                     'tipo_ingrediente': ing.tipo_ingrediente,
@@ -304,7 +304,7 @@ class AbastecerIngrediente(Resource):
             ingredientes_list = []
             if ingrediente.sabores.nombre == 'Sin Sabor':
                     ingrediente_data = {
-                        'idIngrediente': ingrediente.idIngrediente,
+                        'idIngrediente': ingrediente.idingrediente,
                         'nombre': ingrediente.nombre,
                         'precio': ingrediente.precio,
                         'tipo_ingrediente': ingrediente.tipo_ingrediente,
@@ -313,7 +313,7 @@ class AbastecerIngrediente(Resource):
                     }
             else:
                     ingrediente_data = {
-                        'idIngrediente': ingrediente.idIngrediente,
+                        'idIngrediente': ingrediente.idingrediente,
                         'nombre': ingrediente.nombre + " " + ingrediente.sabores.nombre,
                         'precio': ingrediente.precio,
                         'tipo_ingrediente': ingrediente.tipo_ingrediente,

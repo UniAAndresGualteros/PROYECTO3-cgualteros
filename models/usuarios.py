@@ -6,7 +6,7 @@ class Usuarios(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
-    rol_usuario = db.Column(db.Integer, db.ForeignKey('roles.idRol'), nullable=False)
+    rol_usuario = db.Column(db.Integer, db.ForeignKey('roles.idrol'), nullable=False)
     
     roles = db.relationship('Roles', backref='Usuarios',lazy=True)
     

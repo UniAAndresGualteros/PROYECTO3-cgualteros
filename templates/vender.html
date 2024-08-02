@@ -34,8 +34,8 @@
                 {% for producto in productos %}
 
                 <li>
-                    <input type="radio" name="producto" value="{{ producto.idProducto }}" id="producto_{{ producto.idProducto }}">
-                    <label for="producto_{{ producto.idProducto }}">{{ producto.tipo_producto }}: {{ producto.tipo_producto }} - {{ producto.nombre }}&nbsp   ${{'{:,}'.format(producto.precio_publico)}}</label>
+                    <input type="radio" name="producto" value="{{ producto.idproducto }}" id="producto_{{ producto.idproducto }}">
+                    <label for="producto_{{ producto.idproducto }}">{{ producto.tipo_producto }}: {{ producto.tipo_producto }} - {{ producto.nombre }}&nbsp   ${{'{:,}'.format(producto.precio_publico)}}</label>
                 </li>
 
                 
@@ -49,8 +49,8 @@
                 {% for ingrediente in ingredientes %}
 
                 <li>
-                    <input type="checkbox" name="ingredientes" value="{{ ingrediente.idIngrediente }}" id="ingrediente_{{ ingrediente.idIngrediente }}">
-                    <label for="ingrediente_{{ ingrediente.idIngrediente }}">{{ ingrediente.tipo_ingrediente }} - {{ ingrediente.nombre }} 
+                    <input type="checkbox" name="ingredientes" value="{{ ingrediente.idingrediente }}" id="ingrediente_{{ ingrediente.idingrediente }}">
+                    <label for="ingrediente_{{ ingrediente.idingrediente }}">{{ ingrediente.tipo_ingrediente }} - {{ ingrediente.nombre }} 
                         {% if ingrediente.sabores.nombre == "Sin Sabor" %}
                             &nbsp   
                         {% else %}

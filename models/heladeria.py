@@ -4,7 +4,7 @@ from models.sabores import Sabores
 
 class Heladeria():
     def __init__(self):
-        self.ingredientes = Ingredientes.query.join(Sabores, Ingredientes.sabor_base==Sabores.idSabor).all()
+        self.ingredientes = Ingredientes.query.join(Sabores, Ingredientes.sabor_base==Sabores.idsabor).all()
         self.productos = Productos.query.all()
         
         

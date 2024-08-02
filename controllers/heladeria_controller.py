@@ -13,7 +13,7 @@ class HeladeriaController(Resource):
     
     @login_required
     def get(self):
-        ingredientes = Ingredientes.query.order_by(Ingredientes.idIngrediente).all()
+        ingredientes = Ingredientes.query.order_by(Ingredientes.idingrediente).all()
         productos = Productos.query.all()
         return make_response(render_template("vender.html",ingredientes=ingredientes, productos=productos))
      

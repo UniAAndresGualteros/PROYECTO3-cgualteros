@@ -2,28 +2,28 @@ from db import db
 from models.sabores import Sabores
 
 class Ingredientes(db.Model):
-    idIngrediente = db.Column(db.Integer, primary_key=True)
+    idingrediente = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(80), nullable=False)
     precio = db.Column(db.Float, nullable=False)
     calorias = db.Column(db.Float, nullable=False)
     inventario = db.Column(db.Float, nullable=False)
     es_vegetariano = db.Column(db.Boolean, nullable=False)
     tipo_ingrediente = db.Column(db.String(15), nullable=False)
-    sabor_base = db.Column(db.Integer, db.ForeignKey('sabores.idSabor'), nullable=False)
+    sabor_base = db.Column(db.Integer, db.ForeignKey('sabores.idsabor'), nullable=False)
     
     sabores = db.relationship('Sabores', backref='ingredientes',lazy=True)
     
     
-    def es_sano(idIngrediente) -> bool:
-        ingrediente = Ingredientes.query.get(idIngrediente)
+    def es_sano(idingrediente) -> bool:
+        ingrediente = Ingredientes.query.get(idingrediente)
         
         if ingrediente.calorias < 100 or ingrediente.es_vegetariano:
             return True
         return False
         
     
-    def abastecer(idIngrediente):
-        ingrediente = Ingredientes.query.filter(Ingredientes.idIngrediente == idIngrediente).first()
+    def abastecer(idingrediente):
+        ingrediente = Ingredientes.query.filter(Ingredientes.idingrediente == idingrediente).first()
     
         if ingrediente:
             if ingrediente.tipo_ingrediente == 'Base':
@@ -38,8 +38,8 @@ class Ingredientes(db.Model):
             raise ValueError("Ingrediente no encontrado")
     
     
-    def renovar_inventario(idIngrediente):
-        ingrediente = Ingredientes.query.get(idIngrediente)
+    def renovar_inventario(idingrediente):
+        ingrediente = Ingredientes.query.get(idingrediente)
         if ingrediente.tipo_ingrediente =='Complemento':
             ingrediente.inventario = 0
             mensaje = f"Inventario Renovado"

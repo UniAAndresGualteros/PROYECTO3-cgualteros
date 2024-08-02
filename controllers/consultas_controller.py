@@ -37,7 +37,7 @@ class IngredientesController(Resource):
     @role_required([1,2])
     @login_required
     def get(self):
-        ingredientes = Ingredientes.query.order_by(Ingredientes.idIngrediente).all()
+        ingredientes = Ingredientes.query.order_by(Ingredientes.idingrediente).all()
         return make_response(render_template("ingredientes.html",ingredientes=ingredientes))
     
     
