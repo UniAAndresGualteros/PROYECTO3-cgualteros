@@ -15,6 +15,8 @@ class ProductosList(Resource):
      
     def get(self):
         productos = Productos.query.all()
+        
+        
         return jsonify([{
             'idProducto': prod.idproducto,
             'nombre': prod.nombre,
@@ -27,6 +29,10 @@ class ProductosList(Resource):
 class ProductoporID(Resource):
     def get(self, id):
         producto = Productos.query.get_or_404(id)
+        
+        if not producto:
+            return jsonify({'error': 'No se encontraron prodoctos para el ID indicado.'}), 404
+        
         return jsonify({
             'idProducto': producto.idproducto,
             'nombre': producto.nombre,
