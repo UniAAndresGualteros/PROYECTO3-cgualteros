@@ -126,25 +126,33 @@ class CostoProducto(Resource):
 
 
 class Vender(Resource):
-    @role_required([1,2,3])
+    @role_required([1, 2, 3])
     def get(self, id):
         producto = Productos.query.get_or_404(id)
         
         # Obtener todos los ingredientes
         ingredientes = Ingredientes.query.all()
+        
         if len(ingredientes) < 3:
             return jsonify({'error': 'No hay suficientes ingredientes disponibles para hacer la venta'}), 400
 
         # Seleccionar 3 ingredientes aleatoriamente
         ingredientes_seleccionados = random.sample(ingredientes, 3)
+
+        # Validar si hay suficiente inventario
+        for ing in ingredientes_seleccionados:
+            if ing.tipo_ingrediente == 'Base' and ing.inventario < 1:
+                return jsonify({'error': f'No hay suficiente inventario para el ingrediente {ing.nombre}'}), 400
+            elif ing.tipo_ingrediente == 'Complemento' and ing.inventario < 0.2:
+                return jsonify({'error': f'No hay suficiente inventario para el ingrediente {ing.nombre}'}), 400
+
         id_ingrediente_1 = ingredientes_seleccionados[0].idingrediente
         id_ingrediente_2 = ingredientes_seleccionados[1].idingrediente
         id_ingrediente_3 = ingredientes_seleccionados[2].idingrediente
 
-        
         precio_base = sum(ing.precio for ing in ingredientes_seleccionados)
         precio_total = precio_base
-        precioPublico = producto.precio_publico
+        precio_publico = producto.precio_publico
 
         if producto.tipo_producto == 'Malteada':
             precio_plastico = 500
@@ -160,8 +168,7 @@ class Vender(Resource):
             precio_base=precio_base,
             precio_plastico=precio_plastico,
             precio_total=precio_total,
-            precio_publico = precioPublico
-            
+            precio_publico=precio_publico
         )
         db.session.add(venta)
 
@@ -186,7 +193,6 @@ class Vender(Resource):
             'precio_publico': venta.precio_publico,
             'message': 'Venta realizada exitosamente'
         })
-
 
 class IngredientesList(Resource):
     
