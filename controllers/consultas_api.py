@@ -184,13 +184,10 @@ class Vender(Resource):
             'idVenta': venta.idventa,
             'fecha_venta': venta.fecha_venta,
             'idProducto': venta.producto,
-            'ingrediente_1': venta.ingrediente_1,
-            'ingrediente_2': venta.ingrediente_2,
-            'ingrediente_3': venta.ingrediente_3,
-            'costo_ingredientes': venta.precio_base,
-            'costo_plastico': venta.precio_plastico,
-            'costo_total': venta.precio_total,
-            'precio_publico': venta.precio_publico,
+            'ingrediente 1': venta.ingrediente_1,
+            'ingrediente 2': venta.ingrediente_2,
+            'ingrediente 3': venta.ingrediente_3,
+            'precio Total': venta.precio_publico,
             'message': 'Venta realizada exitosamente'
         })
 
